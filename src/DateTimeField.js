@@ -47,7 +47,12 @@ export default class DateTimeField extends Component {
     showToday: PropTypes.bool,
     viewMode: PropTypes.string,
     size: PropTypes.oneOf([Constants.SIZE_SMALL, Constants.SIZE_MEDIUM, Constants.SIZE_LARGE]),
-    daysOfWeekDisabled: PropTypes.arrayOf(PropTypes.number)
+    daysOfWeekDisabled: PropTypes.arrayOf(PropTypes.number),
+    noButton: PropTypes.bool,
+    errorMessage:PropTypes.string,
+    classnames:PropTypes.string,
+    label:PropTypes.string
+
   }
 
   state = {
@@ -336,7 +341,44 @@ export default class DateTimeField extends Component {
     }
   }
 
+  _renderLabel =() =>{
+
+
+
+      return (<label className="input-label control-label">{this.props.label + ":  "}</label>);
+
+
+  }
+
+  _renderErrorMessage =() =>{
+
+
+
+      return (<span id="helpBlock" className="help-block"> {this.props.errorMessage} </span>)
+
+
+
+  }
+
+  _renderButton =() =>{
+
+      var button ;
+      if (!this.props.noButton) {
+
+          button = ( <span className="input-group-addon" onBlur={this.onBlur} onClick={this.onClick} ref="dtpbutton">
+                        <span className={classnames("glyphicon", this.state.buttonIcon)} />
+                    </span>);
+
+
+      }
+
+      return button;
+
+  }
+
   render() {
+
+
     return (
           <div>
             {this.renderOverlay()}
@@ -372,11 +414,11 @@ export default class DateTimeField extends Component {
                   widgetClasses={this.state.widgetClasses}
                   widgetStyle={this.state.widgetStyle}
             />
-            <div className={"input-group date " + this.size()} ref="datetimepicker">
-              <input className="form-control" onChange={this.onChange} type="text" value={this.state.inputValue} {...this.props.inputProps}/>
-              <span className="input-group-addon" onBlur={this.onBlur} onClick={this.onClick} ref="dtpbutton">
-                <span className={classnames("glyphicon", this.state.buttonIcon)} />
-              </span>
+            <div className={"input-group date " + this.size() + this.props.classnames} ref="datetimepicker">
+              {this._renderLabel()}
+              <input className="form-control" onFocus={this.onClick} onChange={this.onChange} type="text" value={this.state.inputValue} {...this.props.inputProps}/>
+              {this._renderButton()}
+              {this._renderErrorMessage()}
             </div>
           </div>
     );

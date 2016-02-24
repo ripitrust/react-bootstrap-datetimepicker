@@ -409,11 +409,47 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return _react2["default"].createElement("span", null);
 	      }
 	    };
+
+	    this._renderLabel = function () {
+
+	      return _react2["default"].createElement(
+	        "label",
+	        { className: "input-label control-label" },
+	        _this.props.label + ":  "
+	      );
+	    };
+
+	    this._renderErrorMessage = function () {
+
+	      return _react2["default"].createElement(
+	        "span",
+	        { id: "helpBlock", className: "help-block" },
+	        " ",
+	        _this.props.errorMessage,
+	        " "
+	      );
+	    };
+
+	    this._renderButton = function () {
+
+	      var button;
+	      if (!_this.props.noButton) {
+
+	        button = _react2["default"].createElement(
+	          "span",
+	          { className: "input-group-addon", onBlur: _this.onBlur, onClick: _this.onClick, ref: "dtpbutton" },
+	          _react2["default"].createElement("span", { className: (0, _classnames2["default"])("glyphicon", _this.state.buttonIcon) })
+	        );
+	      }
+
+	      return button;
+	    };
 	  }
 
 	  _createClass(DateTimeField, [{
 	    key: "render",
 	    value: function render() {
+
 	      return _react2["default"].createElement(
 	        "div",
 	        null,
@@ -452,13 +488,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }),
 	        _react2["default"].createElement(
 	          "div",
-	          { className: "input-group date " + this.size(), ref: "datetimepicker" },
-	          _react2["default"].createElement("input", _extends({ className: "form-control", onChange: this.onChange, type: "text", value: this.state.inputValue }, this.props.inputProps)),
-	          _react2["default"].createElement(
-	            "span",
-	            { className: "input-group-addon", onBlur: this.onBlur, onClick: this.onClick, ref: "dtpbutton" },
-	            _react2["default"].createElement("span", { className: (0, _classnames2["default"])("glyphicon", this.state.buttonIcon) })
-	          )
+	          { className: "input-group date " + this.size() + this.props.classnames, ref: "datetimepicker" },
+	          this._renderLabel(),
+	          _react2["default"].createElement("input", _extends({ className: "form-control", onFocus: this.onClick, onChange: this.onChange, type: "text", value: this.state.inputValue }, this.props.inputProps)),
+	          this._renderButton(),
+	          this._renderErrorMessage()
 	        )
 	      );
 	    }
@@ -493,7 +527,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      showToday: _react.PropTypes.bool,
 	      viewMode: _react.PropTypes.string,
 	      size: _react.PropTypes.oneOf([_ConstantsJs2["default"].SIZE_SMALL, _ConstantsJs2["default"].SIZE_MEDIUM, _ConstantsJs2["default"].SIZE_LARGE]),
-	      daysOfWeekDisabled: _react.PropTypes.arrayOf(_react.PropTypes.number)
+	      daysOfWeekDisabled: _react.PropTypes.arrayOf(_react.PropTypes.number),
+	      noButton: _react.PropTypes.bool,
+	      errorMessage: _react.PropTypes.string,
+	      classnames: _react.PropTypes.string,
+	      label: _react.PropTypes.string
+
 	    },
 	    enumerable: true
 	  }]);
@@ -1064,8 +1103,8 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
-	  Copyright (c) 2015 Jed Watson.
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	  Copyright (c) 2016 Jed Watson.
 	  Licensed under the MIT License (MIT), see
 	  http://jedwatson.github.io/classnames
 	*/
@@ -1077,7 +1116,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		var hasOwn = {}.hasOwnProperty;
 
 		function classNames () {
-			var classes = '';
+			var classes = [];
 
 			for (var i = 0; i < arguments.length; i++) {
 				var arg = arguments[i];
@@ -1086,28 +1125,28 @@ return /******/ (function(modules) { // webpackBootstrap
 				var argType = typeof arg;
 
 				if (argType === 'string' || argType === 'number') {
-					classes += ' ' + arg;
+					classes.push(arg);
 				} else if (Array.isArray(arg)) {
-					classes += ' ' + classNames.apply(null, arg);
+					classes.push(classNames.apply(null, arg));
 				} else if (argType === 'object') {
 					for (var key in arg) {
 						if (hasOwn.call(arg, key) && arg[key]) {
-							classes += ' ' + key;
+							classes.push(key);
 						}
 					}
 				}
 			}
 
-			return classes.substr(1);
+			return classes.join(' ');
 		}
 
 		if (typeof module !== 'undefined' && module.exports) {
 			module.exports = classNames;
 		} else if (true) {
 			// register as 'classnames', consistent with npm package name
-			!(__WEBPACK_AMD_DEFINE_RESULT__ = function () {
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function () {
 				return classNames;
-			}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+			}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 		} else {
 			window.classNames = classNames;
 		}
